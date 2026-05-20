@@ -7,7 +7,6 @@ import scaffolderPlugin from '@backstage/plugin-scaffolder/alpha';
 import catalogImportPlugin from '@backstage/plugin-catalog-import/alpha';
 
 import { navModule } from './modules/nav';
-
 export default createApp({
   features: [
     catalogPlugin,

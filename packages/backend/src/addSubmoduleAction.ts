@@ -32,19 +32,17 @@ export function createAddSubmoduleAction(
     async handler(ctx) {
       const { repoName, repoUrl } = ctx.input;
 
-      const platformRepo =
-        'E:/platform_engineering/TYN-NFIO-RE';
+      const platformRepo = 'E:/platform_engineering/nifo-ref';
 
       ctx.logger.info(
         `Adding submodule ${repoName}`,
       );
 
-      // Inject token temporarily for private repo clone
-      const authenticatedRepoUrl =
-        repoUrl.replace(
-          'https://',
-          `https://${githubToken}@`,
-        );
+      // Inject token temporarily for private GitHub repo clone, skip for AWS CodeCommit
+      let authenticatedRepoUrl = repoUrl;
+      if (repoUrl.includes('github.com')) {
+        authenticatedRepoUrl = repoUrl.replace('https://', `https://${githubToken}@`);
+      }
 
       // Add submodule
       try {

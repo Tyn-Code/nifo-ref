@@ -12,6 +12,8 @@ import { createBackend } from '@backstage/backend-defaults';
 import { customScaffolderModule } from './modules/customScaffolder';
 import { createAddSubmoduleAction } from './addSubmoduleAction';
 const backend = createBackend();
+import { samlModule } from './modules/saml';
+backend.add(samlModule);
 backend.add(customScaffolderModule);
 // backend.add(scaffolderModule);
 backend.add(import('@backstage/plugin-proxy-backend'));
@@ -73,5 +75,6 @@ backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
 // auth
 // backend.add(import('@backstage/plugin-auth-backend'));
 backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
+backend.add(import('@backstage/plugin-auth-backend-module-oidc-provider'));
 
 backend.start();

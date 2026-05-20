@@ -55,7 +55,7 @@ backend:
 
 integrations:
   awsCodeCommit:
-    - host: git-codecommit.*.amazonaws.com
+    - region: us-east-1
   github:
     - host: github.com
       # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
@@ -141,8 +141,18 @@ catalog:
       rules:
         - allow: [User, Group]
 
-    - type: file
-      target: ../../templates/react-template/template.yaml
+    - type: url
+      target: https://us-east-1.console.aws.amazon.com/codesuite/codecommit/repositories/TYN_NIFO/browse/refs/heads/main/--/templates/react-template/template.yaml
+      rules:
+        - allow: [Template]
+
+    - type: url
+      target: https://us-east-1.console.aws.amazon.com/codesuite/codecommit/repositories/TYN_NIFO/browse/refs/heads/main/--/templates/fastapi-backend-template/template.yaml
+      rules:
+        - allow: [Template]
+
+    - type: url
+      target: https://us-east-1.console.aws.amazon.com/codesuite/codecommit/repositories/TYN_NIFO/browse/refs/heads/main/--/templates/drf-backend-template/template.yaml
       rules:
         - allow: [Template]
 
@@ -164,7 +174,7 @@ kubernetes:
 # see https://backstage.io/docs/permissions/getting-started for more on the permission framework
 permission:
   # setting this to `false` will disable permissions
-  enabled: true
+  enabled: false
 
 # see https://backstage.io/docs/ai/mcp-actions for more details
 mcpActions:
