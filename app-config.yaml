@@ -54,6 +54,8 @@ backend:
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
 
 integrations:
+  awsCodeCommit:
+    - host: git-codecommit.*.amazonaws.com
   github:
     - host: github.com
       # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
@@ -84,10 +86,22 @@ techdocs:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
 
 auth:
+  environment: development
+
   # see https://backstage.io/docs/auth/ to learn about auth providers
   providers:
-    # See https://backstage.io/docs/auth/guest/provider
     guest: {}
+
+    saml:
+      entryPoint: ${AWS_SAML_ENTRY_POINT}
+      issuer: ${AWS_SAML_ISSUER}
+      cert: ${AWS_SAML_CERT}
+
+    github:
+      development:
+        clientId: ${AUTH_GITHUB_CLIENT_ID}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+    # See https://backstage.io/docs/auth/guest/provider
   # see https://backstage.io/docs/ai/mcp-actions#client-id-metadata-documents
   # to learn more about client id metadata documents
   experimentalClientIdMetadataDocuments:
@@ -126,6 +140,13 @@ catalog:
       target: ../../examples/org.yaml
       rules:
         - allow: [User, Group]
+
+    - type: file
+      target: ../../templates/react-template/template.yaml
+      rules:
+        - allow: [Template]
+
+
 
     ## Uncomment these lines to add more example data
     # - type: url

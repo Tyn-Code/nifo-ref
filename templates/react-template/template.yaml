@@ -1,0 +1,59 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+
+kind: Template
+
+metadata:
+  name: react-template
+  title: React Frontend Template
+
+spec:
+  owner: platform-team
+  type: website
+
+  parameters:
+    - title: App Information
+
+      required:
+        - name
+        - owner
+
+      properties:
+        name:
+          type: string
+          title: App Name
+
+        owner:
+          type: string
+          title: GitHub Username
+
+  steps:
+    - id: fetch-base
+
+      name: Fetch Skeleton
+
+      action: fetch:template
+
+      input:
+        url: ./skeleton
+
+        values:
+          name: ${{ parameters.name }}
+
+    - id: publish
+
+      name: Publish GitHub Repo
+
+      action: publish:github
+
+      input:
+        repoUrl: github.com?owner=${{ parameters.owner }}&repo=${{ parameters.name }}
+
+        defaultBranch: main
+
+    - id: add-submodule
+      name: Add Platform Submodule
+      action: custom:add-submodule  
+      input:
+        repoName: ${{ parameters.name }}
+        repoUrl: https://github.com/${{ parameters.owner }}/${{ parameters.name }}.git
+

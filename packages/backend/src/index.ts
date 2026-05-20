@@ -1,16 +1,19 @@
 /*
- * Hi!
- *
- * Note that this is an EXAMPLE Backstage backend. Please check the README.
- *
- * Happy hacking!
- */
+* Hi!
+*
+* Note that this is an EXAMPLE Backstage backend. Please check the README.
+*
+* Happy hacking!
+*/
 
 import { createBackend } from '@backstage/backend-defaults';
-
+// custom scaffolder action plugin
+// import { scaffolderModule } from './plugins/submoduleModule';
+import { customScaffolderModule } from './modules/customScaffolder';
+import { createAddSubmoduleAction } from './addSubmoduleAction';
 const backend = createBackend();
-
-backend.add(import('@backstage/plugin-app-backend'));
+backend.add(customScaffolderModule);
+// backend.add(scaffolderModule);
 backend.add(import('@backstage/plugin-proxy-backend'));
 
 // scaffolder plugin
@@ -26,7 +29,7 @@ backend.add(import('@backstage/plugin-techdocs-backend'));
 // auth plugin
 backend.add(import('@backstage/plugin-auth-backend'));
 // See https://backstage.io/docs/backend-system/building-backends/migrating#the-auth-plugin
-backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
+// backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
 // See https://backstage.io/docs/auth/guest/provider
 
 // catalog plugin
@@ -65,5 +68,10 @@ backend.add(import('@backstage/plugin-signals-backend'));
 
 // mcp actions plugin
 backend.add(import('@backstage/plugin-mcp-actions-backend'));
+backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
+
+// auth
+// backend.add(import('@backstage/plugin-auth-backend'));
+backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
 
 backend.start();
